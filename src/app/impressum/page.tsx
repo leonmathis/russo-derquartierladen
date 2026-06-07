@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Impressum — Russo der Quartierladen",
+  title: "Impressum — Prototyp · Russo der Quartierladen",
   description:
-    "Impressum von Russo der Quartierladen — Liquid GmbH, Seefeldstrasse 86, 8008 Zürich.",
+    "Prototyp / Redesign-Konzept — nicht die offizielle Website von Russo «Der Quartierladen». Originalbetreiber: Liquid GmbH, Seefeldstrasse 86, 8008 Zürich.",
 };
 
 const ROWS: { label: string; value: string | string[] }[] = [
@@ -22,7 +22,29 @@ export default function Impressum() {
         </p>
         <h1 className="mt-3 font-serif text-[clamp(2.2rem,5vw,3.4rem)]">Impressum</h1>
 
-        <dl className="mt-10 border-y border-line">
+        <div className="mt-8 border-l-2 border-ochre bg-line/40 px-5 py-4">
+          <p className="font-sans text-sm leading-relaxed text-ink">
+            <span className="font-semibold">Hinweis:</span> Diese Seite ist ein
+            unverbindlicher Redesign-Entwurf und nicht die offizielle Website von
+            Russo «Der Quartierladen». Es besteht keine geschäftliche Verbindung
+            zum unten genannten Betrieb. Für verbindliche Informationen,
+            Bestellungen oder Kontakt besuchen Sie bitte{" "}
+            <a
+              href="https://russo-derquartierladen.ch"
+              target="_blank"
+              rel="noreferrer"
+              className="underline decoration-ochre underline-offset-2 hover:text-ochre"
+            >
+              russo-derquartierladen.ch
+            </a>
+            .
+          </p>
+        </div>
+
+        <p className="mt-12 font-sans text-xs font-semibold uppercase tracking-[0.2em] text-grey">
+          Originalbetreiber des modellierten Geschäfts
+        </p>
+        <dl className="mt-4 border-y border-line">
           {ROWS.map((r) => (
             <div
               key={r.label}
@@ -44,8 +66,10 @@ export default function Impressum() {
           ))}
         </dl>
 
-        <p className="mt-10 font-sans text-sm text-grey">
-          © 2026 Russo der Quartierladen. All Rights Reserved.
+        <p className="mt-10 font-sans text-xs leading-relaxed text-grey">
+          Inhalte (Texte, Bilder, Markenelemente) der modellierten Marke gehören
+          dem Originalbetreiber. Dieser Prototyp dient ausschliesslich
+          Demonstrations- und Konzeptzwecken.
         </p>
       </section>
     </main>
