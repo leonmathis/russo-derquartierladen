@@ -1,25 +1,31 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import Link from "next/link";
 
 const NAV = [
+  { label: "Karte", href: "/#karte" },
   { label: "Über uns", href: "/#ueber" },
   { label: "Instagram", href: "/#instagram" },
 ];
 
-const MAPS =
-  "https://www.google.com/maps/search/?api=1&query=Seefeldstrasse+86+8008+Z%C3%BCrich";
-
 function Wordmark({ className = "" }: { className?: string }) {
   return (
-    <a href="/" className={`font-serif leading-none tracking-[0.01em] ${className}`}>
+    <Link href="/" className={`font-serif leading-none tracking-[0.01em] ${className}`}>
       Russo <span className="text-grey">der Quartierladen</span>
-    </a>
+    </Link>
   );
 }
 
 export default function Header() {
   const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [open]);
 
   return (
     <header className="sticky top-0 z-30 border-b border-line bg-paper/90 backdrop-blur">
@@ -29,22 +35,20 @@ export default function Header() {
         {/* desktop nav */}
         <nav className="hidden items-center gap-8 md:flex">
           {NAV.map((n) => (
-            <a
+            <Link
               key={n.href}
               href={n.href}
               className="font-sans text-sm text-ink/90 transition-colors hover:text-ochre"
             >
               {n.label}
-            </a>
+            </Link>
           ))}
-          <a
-            href={MAPS}
-            target="_blank"
-            rel="noreferrer"
+          <Link
+            href="/#anfahrt"
             className="border border-ink px-5 py-3 font-sans text-xs font-semibold uppercase tracking-[0.08em] text-ink transition-colors hover:bg-ink hover:text-white"
           >
             Anfahrt
-          </a>
+          </Link>
         </nav>
 
         {/* mobile toggle */}
@@ -56,7 +60,7 @@ export default function Header() {
           onClick={() => setOpen((v) => !v)}
           className="flex h-11 w-11 items-center justify-center md:hidden"
         >
-          <span className="relative block h-3 w-6">
+          <span aria-hidden className="relative block h-3 w-6">
             <span
               className={`absolute left-0 block h-[1.5px] w-6 bg-ink transition-transform ${
                 open ? "top-1/2 rotate-45" : "top-0"
@@ -79,24 +83,22 @@ export default function Header() {
           className="absolute inset-x-0 top-full flex flex-col gap-1 border-b border-line bg-paper px-6 pb-6 pt-2 shadow-[0_12px_24px_rgba(20,18,16,0.06)] md:hidden"
         >
           {NAV.map((n) => (
-            <a
+            <Link
               key={n.href}
               href={n.href}
               onClick={() => setOpen(false)}
               className="border-b border-line py-3 font-serif text-xl text-ink"
             >
               {n.label}
-            </a>
+            </Link>
           ))}
-          <a
-            href={MAPS}
-            target="_blank"
-            rel="noreferrer"
+          <Link
+            href="/#anfahrt"
             onClick={() => setOpen(false)}
             className="mt-4 inline-block self-start border border-ink px-5 py-3 font-sans text-xs font-semibold uppercase tracking-[0.08em] text-ink"
           >
             Anfahrt
-          </a>
+          </Link>
         </nav>
       )}
     </header>

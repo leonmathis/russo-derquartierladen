@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Marcellus, Work_Sans } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
@@ -23,6 +23,11 @@ export const metadata: Metadata = {
     "Italienischer Quartierladen im Zürcher Seefeld: Caffè, warme Panini, Focaccia und ein liebevoll kuratiertes Sortiment. Seefeldstrasse 86, 8008 Zürich.",
 };
 
+export const viewport: Viewport = {
+  themeColor: "#ffffff",
+  colorScheme: "light",
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -34,6 +39,12 @@ export default function RootLayout({
       className={`${serif.variable} ${sans.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
+        <a
+          href="#top"
+          className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:border focus:border-ink focus:bg-paper focus:px-4 focus:py-2 focus:font-sans focus:text-sm"
+        >
+          Zum Inhalt springen
+        </a>
         <Header />
         {children}
         <Footer />

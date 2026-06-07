@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 const COLS: { title: string; items: { label: string; href?: string }[] }[] = [
   {
     title: "Besuch",
@@ -45,7 +47,13 @@ export default function Footer() {
             <ul className="mt-4 space-y-2">
               {col.items.map((it) => (
                 <li key={it.label} className="font-sans text-sm text-white/80">
-                  {it.href ? (
+                  {!it.href ? (
+                    it.label
+                  ) : it.href.startsWith("/") ? (
+                    <Link href={it.href} className="transition-colors hover:text-sand">
+                      {it.label}
+                    </Link>
+                  ) : (
                     <a
                       href={it.href}
                       className="transition-colors hover:text-sand"
@@ -55,8 +63,6 @@ export default function Footer() {
                     >
                       {it.label}
                     </a>
-                  ) : (
-                    it.label
                   )}
                 </li>
               ))}

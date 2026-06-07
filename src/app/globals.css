@@ -27,6 +27,11 @@
 /* ── Base ────────────────────────────────────────────────────────────
    Rustic but simple: sharp corners everywhere, serif headings,
    sans body, white page. Emphasis via italic / ochre — never fake-bold. */
+html {
+  color-scheme: light;          /* always-light site */
+  scroll-padding-top: 6rem;     /* anchor targets clear the sticky header */
+}
+
 body {
   background: var(--paper);
   color: var(--ink);
@@ -39,9 +44,37 @@ h1, h2, h3, h4 {
   font-weight: 500;
   line-height: 1.1;
   letter-spacing: 0.01em;
+  text-wrap: balance;
+}
+
+p {
+  text-wrap: pretty;
 }
 
 ::selection {
   background: var(--sand);
   color: var(--ink);
+}
+
+/* Visible keyboard focus on every interactive element (none use outline-none) */
+:where(a, button, [tabindex], summary):focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 2px;
+}
+
+/* Remove the 300ms tap delay; intentional tap highlight */
+:where(a, button) {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

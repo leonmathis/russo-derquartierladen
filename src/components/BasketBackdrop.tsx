@@ -1,11 +1,12 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Image from "next/image";
+import { getImageProps } from "next/image";
 
 /* The basket is the centerpiece: it sits exactly over the hero's #basket-slot,
    stays fixed, and fades to a faint watermark as you scroll. Anchoring to the
-   slot keeps the basket↔title spacing identical on mobile and desktop. */
+   slot keeps the basket↔title spacing identical on mobile and desktop.
+   Art-directed <picture>: only the matching variant downloads per viewport. */
 export default function BasketBackdrop() {
   const [opacity, setOpacity] = useState(1);
   const [top, setTop] = useState<number | null>(null);
@@ -42,6 +43,14 @@ export default function BasketBackdrop() {
     };
   }, []);
 
+  const common = { alt: "", sizes: "(min-width: 768px) 60vw, 80vw", priority: true };
+  const {
+    props: { srcSet: desktopSrcSet },
+  } = getImageProps({ ...common, src: "/basket.png", width: 1920, height: 1004 });
+  const {
+    props: { srcSet: mobileSrcSet, ...imgProps },
+  } = getImageProps({ ...common, src: "/basket-mobile.png", width: 1032, height: 1004 });
+
   return (
     <div
       aria-hidden
@@ -54,24 +63,15 @@ export default function BasketBackdrop() {
         willChange: "opacity",
       }}
     >
-      {/* mobile: squarer, larger variant */}
-      <Image
-        src="/basket-mobile.png"
-        alt=""
-        width={1032}
-        height={1004}
-        priority
-        className="block h-auto w-[80vw] object-contain md:hidden"
-      />
-      {/* desktop: wide variant */}
-      <Image
-        src="/basket.png"
-        alt=""
-        width={1920}
-        height={1004}
-        priority
-        className="hidden h-[44vh] w-auto object-contain md:block"
-      />
+      <picture>
+        <source media="(min-width: 768px)" srcSet={desktopSrcSet} />
+        <source srcSet={mobileSrcSet} />
+        <img
+          {...imgProps}
+          alt=""
+          className="h-auto w-[80vw] object-contain md:h-[44vh] md:w-auto"
+        />
+      </picture>
     </div>
   );
 }
